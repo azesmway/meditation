@@ -109,3 +109,265 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+@media screen and (max-width: 950px) {
+
+  .footer-container {
+    flex-direction: column;
+    padding: 0 15px;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .footer .buttons-container:not(:nth-of-type(2)) {
+    display: none;
+  }
+
+
+  .left-side, .right-side {
+    top: 35%;
+    width: 50px;
+    height: 30px;
+  }
+
+  /* Оставляем один блок favorite/heart (с тенью и stroke-width) */
+  .favorite-btn {
+    top: 6px;
+    right: 6px;
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .heart-icon {
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.8;
+  }
+
+  .catalog_price {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+
+  .kolonka {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .forthecatalog {
+    height: auto !important; /* Важно, чтобы работал перенос */
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .catalog-item {
+    flex: 0 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+    aspect-ratio: 1 / 1;
+    height: auto; /* убрали фиксированную высоту */
+    flex-direction: column;
+  }
+
+  .catalog_price img {
+    border-radius: 10px;
+  }
+
+  .pc {
+    display: none;
+  }
+
+  #Kartinka1, #Kartinka2, #Kartinka3 {
+    border-radius: 10px;
+  }
+
+  .img img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .img {
+    width: 95%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+
+  #left_1 img {
+    max-width: 82%; /* было 90% — сделал чуть меньше */
+    height: auto;
+    display: block; /* убирает лишние пробелы под img */
+    margin: 0 auto 15px; /* центр по горизонтали + твой нижний отступ */
+    border-radius: 10px; /* сохраняем твой стиль */
+  }
+
+  #glav {
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  #glav1 {
+    flex-direction: column;
+    height: auto;
+    padding: 0 10px;
+  }
+
+  #left_1,
+  #right_1 {
+    width: 100%;
+    height: auto;
+  }
+
+  #left_1 {
+    display: flex; /* не ломает вёрстку, только даёт центрирование */
+    justify-content: center; /* по центру по горизонтали */
+    align-items: center; /* по центру по вертикали */
+    margin-left: 0px;
+  }
+
+
+  /* Отдельно только то, что отличается у правого блока */
+  #right_1 {
+    font-size: 16px;
+    gap: 10px;
+    margin-left: 0;
+    align-items: center;
+    text-align: center;
+  }
+
+
+  .text {
+    font-size: 16px;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .text p {
+    margin-bottom: 8px;
+  }
+
+  label {
+    font-size: 12px;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+
+  select {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  #price_tovar {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  #tovar {
+    font-size: 20px;
+  }
+
+  footer {
+    position: relative;
+    bottom: 0px;
+  }
+
+  .pricecatalogmobile {
+    display: block;
+  }
+
+
+  #forthecatalog {
+    margin-top: 40px;
+  }
+
+  .h2_tovar {
+    text-align: center;
+  }
+
+  .mobcatalog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-card {
+    flex: 0 0 100%;
+  }
+
+
+  .btn, #btn1, #btn2, #btn3 {
+    padding: 6px 12px;
+    font-size: 15px;
+  }
+
+  .opsie {
+    font-size: 15px;
+  }
+
+  .ykrashe {
+    font-size: 18px;
+  }
+
+  #img16_9 {
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 20px 0px 20px;
+    margin-top: 0px;
+    box-sizing: border-box;
+  }
+
+  .svg_glav_3 {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    gap: 40px;
+
+    .svg_element {
+      align-items: center;
+      gap: 5px;
+    }
+
+    .text_1_2 {
+      text-align: center;
+    }
+
+    .img img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      max-height: unset;
+      display: block;
+    }
+
+    .svg_sam img {
+      height: auto;
+      width: 40px;
+
+    }
+
+    .glstr {
+      font-size: 10px !important;
+    }
+
+
+    .left-side, .right-side {
+      display: none;
+    }
+
+    .background {
+      fill: #1e2230;
+    }
+
+    .arrow {
+      fill: #ffffff;
+    }
+  }
+}
