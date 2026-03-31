@@ -29,14 +29,14 @@ const SearchIcon = () => (
 // Отправка кода на сервер — возвращает ссылку на скачивание
 async function sendCode(meditationId, code) {
   // TODO: реализовать реальный запрос
-  // const res = await fetch('/api/get-download-link', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({ id: meditationId, code }),
-  // })
-  // const data = await res.json()
-  // return data.url  // ожидаем строку-ссылку
-  return null
+  const res = await fetch('/api/get-download-link', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: meditationId, code }),
+  })
+  const data = await res.json()
+  return data.url  // ожидаем строку-ссылку
+  // return null
 }
 
 function Modal({ meditation, onClose }) {
@@ -109,7 +109,6 @@ function Modal({ meditation, onClose }) {
 function App() {
   const searchDivRef = useRef(null)
   const extraRef = useRef(null)
-  const inputRef = useRef(null)
   const [modal, setModal] = useState(null) // { id, name }
 
   const openModal = (id, name) => setModal({ id, name })
@@ -202,45 +201,38 @@ function App() {
           <div className="center_col">
 
             <div className="card links_card">
-              <div className="mini_links">
-
-                <details className="adet">
-                  <div className="abox">
-
-                    <div className="aprev">
-                      По данной книге созданны медитации
-                    </div>
-                    <details className="amore_box">
-
-                      <summary className="amore">Читать далее</summary>
-
-                      <div className="afull">
-                        <p>Спасти мир и спасти человечество может только прекращение эпохи патриархата,
-                          возвращение к изначальной схеме взаимодействия женской и мужской
-                          энергетических структур, и гармоничного взаимодействия женской и мужской Силы.
-                        </p>
-                        <p>И выполнение этой задачи раскладывается на множество женских пробуждений
-                          и возвращения каждой женщины к ее изначальному состоянию.
-                        </p>
-                        <p>Женщина формирует цикличность, возникающую из ее месячных и любая цикличность будет
-                          соизмеряться с цикличностью месячных. В данной книге Вы найдете подробное описание
-                          рунического цикла на основе Рунического Круга.
-                        </p>
-                        <p>В данной книге также описана женская магия на основе Сейда. В древнескандинавском языке
-                          Seiðr (Сейд) — это форма магии, связанная с предсказанием и формированием будущего.
-                        </p>
-                        <p><strong>Скачать книгу можно по ссылкам:</strong></p>
-                      </div>
-
-                      <div className="adownloads">
-                        <a href="https://runa-odin.org/oleg_shaposhnikov_book_of_the_great_goddess.pdf" target="_blank" rel="noreferrer" className="alink">Скачать PDF</a>
-                        <a href="https://disk.yandex.ru/i/Rv8crtYeDG5JCA" target="_blank" rel="noreferrer" className="alink">Яндекс Диск</a>
-                        <a href="https://drive.google.com/file/d/1l0WLPd50c3Xvqom2ugbKcVxO3waSs5ba/view?usp=sharing" target="_blank" rel="noreferrer" className="alink">Google Диск</a>
-                      </div>
-                    </details>
+                <div className="abox">
+                  <div className="aprev">
+                    По данной книге созданы медитации...
                   </div>
-                </details>
-              </div>
+                  <details className="amore_box">
+                    <summary className="amore">Читать далее</summary>
+
+                    <div className="afull">
+                      <p>Спасти мир и спасти человечество может только прекращение эпохи патриархата,
+                        возвращение к изначальной схеме взаимодействия женской и мужской
+                        энергетических структур, и гармоничного взаимодействия женской и мужской Силы.
+                      </p>
+                      <p>И выполнение этой задачи раскладывается на множество женских пробуждений
+                        и возвращения каждой женщины к ее изначальному состоянию.
+                      </p>
+                      <p>Женщина формирует цикличность, возникающую из ее месячных и любая цикличность будет
+                        соизмеряться с цикличностью месячных. В данной книге Вы найдете подробное описание
+                        рунического цикла на основе Рунического Круга.
+                      </p>
+                      <p>В данной книге также описана женская магия на основе Сейда. В древнескандинавском языке
+                        Seiðr (Сейд) — это форма магии, связанная с предсказанием и формированием будущего.
+                      </p>
+                      <p><strong>Скачать книгу можно по ссылкам:</strong></p>
+                    </div>
+
+                    <div className="adownloads">
+                      <a href="https://runa-odin.org/oleg_shaposhnikov_book_of_the_great_goddess.pdf" target="_blank" rel="noreferrer" className="alink">Скачать PDF</a>
+                      <a href="https://disk.yandex.ru/i/Rv8crtYeDG5JCA" target="_blank" rel="noreferrer" className="alink">Яндекс Диск</a>
+                      <a href="https://drive.google.com/file/d/1l0WLPd50c3Xvqom2ugbKcVxO3waSs5ba/view?usp=sharing" target="_blank" rel="noreferrer" className="alink">Google Диск</a>
+                    </div>
+                  </details>
+                </div>
             </div>
 
             <div className="card">
