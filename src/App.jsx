@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import './App.css'
 
 const CatalogIcon = () => (
@@ -26,10 +26,94 @@ const SearchIcon = () => (
   </svg>
 )
 
+// Отправка кода на сервер — возвращает ссылку на скачивание
+async function sendCode(meditationId, code) {
+  // TODO: реализовать реальный запрос
+  // const res = await fetch('/api/get-download-link', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({ id: meditationId, code }),
+  // })
+  // const data = await res.json()
+  // return data.url  // ожидаем строку-ссылку
+  return null
+}
+
+function Modal({ meditation, onClose }) {
+  const [code, setCode] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const overlayRef = useRef(null)
+
+  const handleOverlayClick = useCallback((e) => {
+    if (e.target === overlayRef.current) onClose()
+  }, [onClose])
+
+  const handleSubmit = async () => {
+    if (!code.trim()) {
+      setError('Введите код')
+      return
+    }
+    setError('')
+    setLoading(true)
+    try {
+      const url = await sendCode(meditation.id, code.trim())
+      if (url) {
+        const a = document.createElement('a')
+        a.href = url
+        a.download = ''
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+        onClose()
+      } else {
+        setError('Неверный код или сервер недоступен')
+      }
+    } catch {
+      setError('Ошибка при отправке. Попробуйте ещё раз.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleSubmit()
+    if (e.key === 'Escape') onClose()
+  }
+
+  return (
+    <div className="modal-overlay" ref={overlayRef} onClick={handleOverlayClick}>
+      <div className="modal">
+        <button className="modal-close" onClick={onClose} aria-label="Закрыть">×</button>
+        <div className="modal-title">Введите код доступа</div>
+        <div className="modal-subtitle">{meditation.name}</div>
+        <input
+          className="modal-input"
+          type="text"
+          placeholder="Код доступа"
+          value={code}
+          onChange={e => setCode(e.target.value)}
+          onKeyDown={handleKeyDown}
+          autoFocus
+        />
+        <div className="modal-error">{error}</div>
+        <button className="modal-btn" onClick={handleSubmit} disabled={loading}>
+          {loading && <span className="modal-spinner"></span>}
+          {loading ? 'Проверка...' : 'Отправить код'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const searchDivRef = useRef(null)
   const extraRef = useRef(null)
   const inputRef = useRef(null)
+  const [modal, setModal] = useState(null) // { id, name }
+
+  const openModal = (id, name) => setModal({ id, name })
+  const closeModal = () => setModal(null)
 
   // Overlay + search panel toggle
   useEffect(() => {
@@ -83,26 +167,23 @@ function App() {
 
   return (
     <>
+      {modal && <Modal meditation={modal} onClose={closeModal} />}
       <header>
-        <div className="header-bottom">
-
-          <div className="levaya_storona">
-            <a href="/" className="logotip">
-              <div className="logotip_img">
-                <img src="img/logotip2.png" alt="Логотип" />
+        <a href="/" className="logotip">
+          <div className="logotip_img">
+            <img src="img/logotip2.png" alt="Логотип" />
+          </div>
+        </a>
+        <div className="levaya_storona">
+          <div className="header-menu">
+            <a href="/" style={{ textDecoration: 'none' }}>
+              <div className="knopka_2">
+                <CatalogIcon />
+                <span>Каталог</span>
               </div>
             </a>
-
-            <div className="header-menu">
-              <a href="/" style={{ textDecoration: 'none' }}>
-                <div className="knopka_2">
-                  <CatalogIcon />
-                  <span>Каталог</span>
-                </div>
-              </a>
-              <a href="/" className="knopka" style={{ textDecoration: 'none' }}>Инструкция</a>
-              <a href="/" className="knopka" style={{ textDecoration: 'none' }}>Медитации</a>
-            </div>
+            <a href="/" className="knopka" style={{ textDecoration: 'none' }}>Инструкция</a>
+            <a href="/" className="knopka" style={{ textDecoration: 'none' }}>Медитации</a>
           </div>
         </div>
       </header>
@@ -124,16 +205,13 @@ function App() {
               <div className="mini_links">
 
                 <details className="adet">
-                  <summary className="clean_link asummary">О книге</summary>
-
                   <div className="abox">
-                    <div className="aprev">
-                      Эта книга есть книга-пробуждение, пробуждение женщины под патронажем Великой Богини.
-                      Наш мир является несовершенным, является не только миром нарушенной гармонии, но и миром,
-                      смысл и суть существования которого утеряны...
-                    </div>
 
+                    <div className="aprev">
+                      По данной книге созданны медитации
+                    </div>
                     <details className="amore_box">
+
                       <summary className="amore">Читать далее</summary>
 
                       <div className="afull">
@@ -162,9 +240,6 @@ function App() {
                     </details>
                   </div>
                 </details>
-
-                <a className="clean_link">Инструкция по медитациям</a>
-
               </div>
             </div>
 
@@ -174,15 +249,15 @@ function App() {
                 <div className="section_title">Файлы для скачивания</div>
                 <div className="row_item">
                   <div className="row_name">Медитация №1. Процесс осознания</div>
-                  <button className="btn_buy" data-id="m1">Скачать</button>
+                  <button className="btn_buy" onClick={() => openModal('m1', 'Медитация №1. Процесс осознания')}>Скачать</button>
                 </div>
                 <div className="row_item">
                   <div className="row_name">Медитация №2. Процесс принятия</div>
-                  <button className="btn_buy" data-id="m2">Скачать</button>
+                  <button className="btn_buy" onClick={() => openModal('m2', 'Медитация №2. Процесс принятия')}>Скачать</button>
                 </div>
                 <div className="row_item">
                   <div className="row_name">Медитация №3. Таинство</div>
-                  <button className="btn_buy" data-id="m3">Скачать</button>
+                  <button className="btn_buy" onClick={() => openModal('m3', 'Медитация №3. Таинство')}>Скачать</button>
                 </div>
               </div>
 
@@ -191,39 +266,6 @@ function App() {
           </div>
         </div>
       </div>
-
-      <footer className="footer">
-        <div className="footer-container">
-
-          <div className="buttons-container">
-            <div className="contacts">Логотип</div>
-            <button className="knopochka">Руны Одина - ювелирные украшения из титана и нержавеющей стали</button>
-          </div>
-
-          <div className="buttons-container">
-            <div className="contacts">Навигация</div>
-            <a href="https://runa-odin.ru/main" className="knopochka">Главная</a>
-            <a href="https://runa-odin.ru/katalog_tovarov" className="knopochka">Каталог</a>
-            <a href="https://runa-odin.ru/materials" className="knopochka">Материалы</a>
-            <button className="knopochka">Вопросы и ответы</button>
-          </div>
-
-          <div className="buttons-container">
-            <div className="contacts">Информация</div>
-            <a href="https://mayaruna.ru/dostavka-i-oplata.php" className="knopochka">Доставка и оплата</a>
-            <a href="https://mayaruna.ru/obmen-i-vozvrat.php" className="knopochka">Обмен и возврат</a>
-            <a href="https://mayaruna.ru/warranty.php" className="knopochka">Гарантии и качество</a>
-            <a href="https://mayaruna.ru/privacy-policy.php" className="knopochka">Политика конфиденциальности</a>
-            <a href="https://mayaruna.ru/oferta.php" className="knopochka">Публичная оферта</a>
-          </div>
-
-          <div className="buttons-container">
-            <div className="contacts">Контакты</div>
-            <b><a href="mailto:naunik@list.ru" className="mail-link knopochka">Naunik@list.ru</a></b>
-          </div>
-
-        </div>
-      </footer>
     </>
   )
 }
