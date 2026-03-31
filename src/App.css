@@ -543,14 +543,36 @@
   color: #f0f0f0;
   line-height: 1.5;
   font-size: 15px;
+  text-align: left;
+}
+
+.aprev_row{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
 }
 
 .aprev{
-  margin-bottom: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+  word-break: break-word;
 }
 
 .amore_box{
-  margin-top: 6px;
+  width: 100%;
+}
+
+.amore_summary{
+  list-style: none;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+.amore_summary::-webkit-details-marker{
+  display: none;
 }
 
 .amore{
@@ -576,11 +598,12 @@
 
 .afull{
   margin-top: 14px;
+  text-align: left;
 }
 
 .afull p{
   margin: 0 0 14px;
-  align-items: flex-start;
+  text-align: left;
 }
 
 .alink,

@@ -202,29 +202,20 @@ function App() {
 
             <div className="card links_card">
                 <div className="abox">
-                  <div className="aprev">
-                    По данной книге созданы медитации...
-                  </div>
                   <details className="amore_box">
-                    <summary className="amore">Читать далее</summary>
+                    <summary className="amore_summary">
+                      <div className="aprev_row">
+                        <span className="aprev">По данной книге созданы медитации...</span>
+                        <span className="amore">Читать далее</span>
+                      </div>
+                    </summary>
 
-                    <div className="afull">
-                      <p>Спасти мир и спасти человечество может только прекращение эпохи патриархата,
-                        возвращение к изначальной схеме взаимодействия женской и мужской
-                        энергетических структур, и гармоничного взаимодействия женской и мужской Силы.
-                      </p>
-                      <p>И выполнение этой задачи раскладывается на множество женских пробуждений
-                        и возвращения каждой женщины к ее изначальному состоянию.
-                      </p>
-                      <p>Женщина формирует цикличность, возникающую из ее месячных и любая цикличность будет
-                        соизмеряться с цикличностью месячных. В данной книге Вы найдете подробное описание
-                        рунического цикла на основе Рунического Круга.
-                      </p>
-                      <p>В данной книге также описана женская магия на основе Сейда. В древнескандинавском языке
-                        Seiðr (Сейд) — это форма магии, связанная с предсказанием и формированием будущего.
-                      </p>
-                      <p><strong>Скачать книгу можно по ссылкам:</strong></p>
-                    </div>
+                    <div
+                      className="afull"
+                      dangerouslySetInnerHTML={{
+                        __html: document.getElementById('book-description')?.innerHTML ?? ''
+                      }}
+                    />
 
                     <div className="adownloads">
                       <a href="https://runa-odin.org/oleg_shaposhnikov_book_of_the_great_goddess.pdf" target="_blank" rel="noreferrer" className="alink">Скачать PDF</a>
